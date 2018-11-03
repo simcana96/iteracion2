@@ -1,0 +1,160 @@
+
+{
+	"title": "SuperAndes",
+	"frameH": 600,
+	"frameW": 800,
+	"bannerPath": "./src/main/resources/config/logo.png",
+	"menuBar":
+	[
+		{ "menuTitle": "Registrar",
+		  "options":
+			[
+				{
+					"label": "Producto",
+					"event": "adicionarProducto"
+				},
+				{
+					"label": "Bodega",
+					"event": "adicionarBodega"
+				},
+				{
+					"label": "Materia Prima",
+					"event": "adicionarMateriaPrima"
+				},
+				{
+					"label": "Proveedor",
+					"event": "adicionarProveedor"
+				},
+				{
+					"label": "Materia Prima-Proveedor",
+					"event": "adicionarMateriaPrimaAUnProveedor"
+				},
+				{
+					"label": "Cliente",
+					"event": "adicionarCliente"
+				},
+				{
+					"label": "Sucursal",
+					"event": "adicionarSucursal"
+				},
+				{
+					"label": "Estante",
+					"event": "adicionarEstante"
+				},
+				{
+					"label": "Promocion",
+					"event": "adicionarPromocion"
+				},
+				{
+					"label": "Categoria",
+					"event": "adicionarCategoria"
+				}
+			]
+		},		
+		{ "menuTitle": "Finalizar",
+		  "options":
+			[
+				{
+					"label": "Promocion",
+					"event": "finalizarPromocion"
+				}
+			]
+		},
+		{ "menuTitle": "Registros Especiales",
+		  "options":
+			[
+				{
+					"label": "Pedido a proveedor",
+					"event": "registrarPedido"
+				},
+				{
+					"label": "Llega de producto a sucursal",
+					"event": "llegadaPedido"
+				},
+				{
+					"label": "Venta",
+					"event": "adicionarCompra"
+				}
+			]
+		},
+		{ "menuTitle": "Consultas",
+		  "options":
+			[
+				{
+					"label": "Dinero recogido por sucursales en el a�o",
+					"event": "consulta1"
+				},
+				{
+					"label": "20 promociones m�s populares",
+					"event": "consulta2"
+				},
+				{
+					"label": "MOSTRAR EL ÍNDICE DE OCUPACIÓN DE CADA UNA DE BODEGAS Y ESTANTES DE UNA SUCURSAL",
+					"event": "consulta3"
+				},
+				{
+					"label": "MOSTRAR LOS PRODUCTOS QUE CUMPLEN CON CIERTA CARACTERÍSTICA",
+					"event": "consulta4"
+				},
+				{
+					"label": "MOSTRAR LAS COMPRAS HECHAS POR SUPERANDES A LOS PROVEEDORES",
+					"event": "consulta5"
+				},
+				{
+					"label": " MOSTRAR LAS VENTAS DE SUPERANDES A UN USUARIO DADO, EN UN RANGO DE FECHAS INDICADO.",
+					"event": "consulta6"
+				},
+				{
+					"label": "Analizar la operacion de SuperAndes",
+					"event": "consulta7"
+				},
+				{
+					"label": "Encontrar los clientes frecuentes",
+					"event": "consulta8"
+				},
+				{
+					"label": "Encontrar lo productos con poca demanda",
+					"event": "consulta9"
+				}
+			]
+		},
+		{
+			"menuTitle": "Carrito",
+			"options":
+			[
+				{
+					"label": "Solicitar un carrito",
+					"event": "solicitarCarrito"
+				},
+				{
+					"label": "Adicionar producto al carrito",
+					"event": "adicionarProductoCarrito"
+				},
+				{
+					"label": "Devolver producto carrito",
+					"event": "devolverProductoCarrito"
+				},
+				{
+					"label": "Pagar compra carrito",
+					"event": "pagarCarrito"
+				},
+				{
+					"label": "Abandonar Carrito",
+					"event": "abandonarCarrito"
+				},
+				{
+					"label": "Recolectar productos abandonados",
+					"event": "recolectarProductosAbandonados"
+				},
+				{
+					"label": "Consolidar pedidos a proveedores",
+					"event": "consolidarPedidos"
+				},
+				{
+					"label": "Registrar llegada de pedido",
+					"event": "registrarLlegdaPedidoConsolidado"
+				}
+			]
+		}		
+	]
+}

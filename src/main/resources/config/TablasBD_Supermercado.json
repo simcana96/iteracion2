@@ -1,0 +1,25 @@
+{
+	"title": "Nombres de las tablas del Supermercado para otra aplicacio�n",
+	"unidadPersistencia": "Supermercado",
+	"tablas":
+	[
+		"Parranderos_sequence",
+		"BODEGA",
+		"CATEGORIA",
+		"CLIENTE",
+		"EMPRESA",
+		"ESTANTE",
+		"FACTURA",
+		"MATERIA_PRIMA",
+		"PEDIDO",
+		"PERSONANATURAL",
+		"PRODUCTO",
+		"PRODUCTO_BODEGA",
+		"PRODUCTO_ESTANTE",
+		"PRODUCTO_FACTURA",
+		"PRODUCTO_SUCURSAL",
+		"PROMOCION",
+		"PROVEEDOR",
+		"SUCURSAL"
+	]
+}
