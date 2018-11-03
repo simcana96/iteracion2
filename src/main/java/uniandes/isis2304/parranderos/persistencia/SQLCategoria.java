@@ -20,14 +20,14 @@ public class SQLCategoria {
 	
 	public long adicionarCategoria(PersistenceManager pm,String pNombre )
 	{
-		 Query q = pm.newQuery(SQL, "INSERT INTO "+ ps.darCategoria ()   + " (NOMBRE) values (?)");
+		 Query q = pm.newQuery(SQL, "INSERT INTO "+ ps.darTablaCategoria ()   + " (NOMBRE) values (?)");
 	         q.setParameters(pNombre);
 	        return (long) q.executeUnique();
 	}
 	
 	public VOCategoria darCategoria(PersistenceManager pm , String pNombre)
 	{
-		Query q = pm.newQuery(SQL,"SELECT * FROM " + ps.darCategoria() + " WHERE NOMBRE = ?");
+		Query q = pm.newQuery(SQL,"SELECT * FROM " + ps.darTablaCategoria() + " WHERE NOMBRE = ?");
 		q.setResultClass(VOCategoria.class);
 		q.setParameters(pNombre);
 		return (VOCategoria) q.executeUnique();
@@ -35,7 +35,7 @@ public class SQLCategoria {
 	
 	public List<VOCategoria> darCategorias(PersistenceManager pm)
 	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM " + ps.darCategoria());
+		Query q = pm.newQuery(SQL, "SELECT * FROM " + ps.darTablaCategoria());
 		q.setResultClass(VOCategoria.class);
 		return q.executeList();
 	}

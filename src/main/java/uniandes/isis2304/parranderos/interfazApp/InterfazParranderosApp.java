@@ -362,8 +362,7 @@ public class InterfazParranderosApp extends JFrame implements ActionListener
 			panelDatos.actualizarInterfaz(resultado);
 		}
     }
-
-
+    
 	/* ****************************************************************
 	 * 			Métodos administrativos
 	 *****************************************************************/
@@ -606,6 +605,8 @@ public class InterfazParranderosApp extends JFrame implements ActionListener
 			e.printStackTrace();
 		}
 	}
+	
+	
 
 	/* ****************************************************************
 	 * 			Métodos de la Interacción

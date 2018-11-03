@@ -25,7 +25,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.InterningXmlVisitor;
 
-
+import uniandes.isis2304.parranderos.negocio.PersonaNatural;
 import uniandes.isis2304.parranderos.negocio.VOBodega;
 import uniandes.isis2304.parranderos.negocio.VOCategoria;
 import uniandes.isis2304.parranderos.negocio.VOCliente;
@@ -34,6 +34,7 @@ import uniandes.isis2304.parranderos.negocio.VOFactura;
 import uniandes.isis2304.parranderos.negocio.VOMateriaPrima;
 import uniandes.isis2304.parranderos.negocio.VOMateriaPrimaProveedor;
 import uniandes.isis2304.parranderos.negocio.VOPedido;
+import uniandes.isis2304.parranderos.negocio.VOPersonaNatural;
 import uniandes.isis2304.parranderos.negocio.VOProducto;
 import uniandes.isis2304.parranderos.negocio.VOProductoBodega;
 import uniandes.isis2304.parranderos.negocio.VOProductoEstante;
@@ -680,6 +681,80 @@ public class InterfazSupermercado extends JFrame implements ActionListener {
 			e.printStackTrace();
 		}
 	}
+	//------------------------------------------------------------------
+  	// Metodos iteracion 2
+  	//------------------------------------------------------------------
+  	public void solicitarCarrito()
+  	{
+  		String clienteId = JOptionPane.showInputDialog (this, "¿Cual es tu cedula?", "Adicionar carrito a cliente", JOptionPane.QUESTION_MESSAGE);
+  		if( isNumeric(clienteId))
+  		{
+  			Integer pCedula = Integer.parseInt(clienteId);
+  			PersonaNatural persona = supermercado.darClientePorCedula(pCedula);
+  			if( persona != null)
+  			{
+  				String sucursal = JOptionPane.showInputDialog (this, "¿En que sucursal te encuentras? Escribe el id", "Adicionar carrito a cliente", JOptionPane.QUESTION_MESSAGE);
+  				if( isId(sucursal))
+  				{
+  					Long id_sucursal = Long.parseLong(sucursal);
+  					VOSucursal sucursal1 = supermercado.darSucursalPorId(id_sucursal);
+  					if( sucursal1 != null)
+  					{
+  						supermercado.adicionarCarrito(id_sucursal, persona.getId());
+  					}
+  					else
+  					{
+  						JOptionPane.showMessageDialog(null, "La sucursal no está registrada en la base de datos, intente con un numero válido", "Parranderos App", JOptionPane.ERROR_MESSAGE);
+  					}
+  				}
+  				else
+  				{
+  					JOptionPane.showMessageDialog(null, "No es un numero entero válido por favor intente de nuevo", "Parranderos App", JOptionPane.ERROR_MESSAGE);
+  				}
+  				
+  			}
+  			else
+  			{
+  				JOptionPane.showMessageDialog(null, "Su cedula no está registrada en la base de datos, intente con un numero válido", "Parranderos App", JOptionPane.ERROR_MESSAGE);
+  			}
+  		}
+  		else
+  		{
+  			JOptionPane.showMessageDialog(null, "No es un numero entero válido por favor intente de nuevo", "Parranderos App", JOptionPane.ERROR_MESSAGE);
+  		}
+  		
+  	}
+
+  	//-------------------------------------------------------------------
+  	// Métodos adicionales 
+  	//-------------------------------------------------------------------
+  	public static boolean isNumeric(String cadena) {
+
+        boolean resultado;
+
+        try {
+            Integer.parseInt(cadena);
+            resultado = true;
+        } catch (NumberFormatException excepcion) {
+            resultado = false;
+        }
+
+        return resultado;
+    }
+  	public static boolean isId(String cadena) {
+
+        boolean resultado;
+
+        try {
+            Long.parseLong(cadena);
+            resultado = true;
+        } catch (NumberFormatException excepcion) {
+            resultado = false;
+        }
+
+        return resultado;
+    }
+        
 
 	/**
 	 * genera la consulta 1

@@ -1501,10 +1501,10 @@ public class PersistenciaParranderos
         try
         {
             tx.begin();
-            long [] resp = sqlUtil.limpiarParranderos (pm);
+//            long [] resp = sqlUtil.limpiarParranderos (pm);
             tx.commit ();
             log.info ("Borrada la base de datos");
-            return resp;
+            return new long[] {-2} ;
         }
         catch (Exception e)
         {

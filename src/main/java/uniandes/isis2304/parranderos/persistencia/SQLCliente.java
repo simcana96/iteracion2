@@ -21,21 +21,21 @@ public class SQLCliente {
 	
 	public long adicionarCliente(PersistenceManager pm,long pid_cliente, String pnombre, String pcorreo, int ppuntos )
 	{
-		 Query q = pm.newQuery(SQL, "INSERT INTO "+ps.darCliente ()   + "(ID_CLIENTE, NOMBRE, CORREO, PUNTOS) values (?, ?, ?, ?)");
+		 Query q = pm.newQuery(SQL, "INSERT INTO "+ps.darTablaCliente ()   + "(ID_CLIENTE, NOMBRE, CORREO, PUNTOS) values (?, ?, ?, ?)");
 	         q.setParameters(pid_cliente, pnombre, pcorreo, ppuntos);
 	        return (long) q.executeUnique();
 	}
 	
 	public List<VOCliente> darClientes(PersistenceManager pm)
 	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM " + ps.darCliente());
+		Query q = pm.newQuery(SQL, "SELECT * FROM " + ps.darTablaCliente());
 		q.setResultClass(VOCliente.class);
 		return q.executeList();
 	}
 	
 	public VOCliente darClientePorId(PersistenceManager pm , long idCliente)
 	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM " + ps.darCliente() + " WHERE ID_CLIENTE = ?");
+		Query q = pm.newQuery(SQL, "SELECT * FROM " + ps.darTablaCliente() + " WHERE ID_CLIENTE = ?");
 		q.setResultClass(VOCliente.class);
 		q.setParameters(idCliente);
 		return (VOCliente) q.executeUnique();

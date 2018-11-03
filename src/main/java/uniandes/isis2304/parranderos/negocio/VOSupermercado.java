@@ -65,6 +65,10 @@ public class VOSupermercado {
 
 	}
 
+	public VOCarrito adicionarCarrito(long idSucursal, long idCliente)
+	{
+		return ps.adicionarCarrito(idSucursal, idCliente);
+	}
 	/**
 	 * Registra un Cliente nuevo
 	 * @param pnombre
@@ -123,18 +127,18 @@ public class VOSupermercado {
 		return estante;
 	}
 
-	/**
-	 * Registrar una promoci�n 
-	 * @param ptipo
-	 * @param punidades_disponibles
-	 * @param pid_producto
-	 * @return VOPromocion 
-	 */
-	public VOPromocion adicionarPromocion(String ptipo, int punidades_disponibles, long pid_producto, long pfecha_vencimiento)
-	{
-		VOPromocion promocion = ps.adicionarPromocion(ptipo, punidades_disponibles, pid_producto, pfecha_vencimiento);
-		return promocion;
-	}
+//	/**
+//	 * Registrar una promoci�n 
+//	 * @param ptipo
+//	 * @param punidades_disponibles
+//	 * @param pid_producto
+//	 * @return VOPromocion 
+//	 */
+//	public VOPromocion adicionarPromocion(String ptipo, int punidades_disponibles, long pid_producto, long pfecha_vencimiento)
+//	{
+//		VOPromocion promocion = ps.adicionarPromocion(ptipo, punidades_disponibles, pid_producto, pfecha_vencimiento);
+//		return promocion;
+//	}
 
 	/**
 	 * Registrar categoria
@@ -155,9 +159,9 @@ public class VOSupermercado {
 	 * @param pcedula
 	 * @return VOPersonaNatural
 	 */
-	public VOPersonaNatural adicionarPersonaNatural(long pid_persona, int pcedula)
+	public VOPersonaNatural adicionarPersonaNatural(long pid_persona, int pCedula, String pCorreo, String pNombre)
 	{
-		VOPersonaNatural persona = ps.adicionarPersona(pid_persona, pcedula);
+		VOPersonaNatural persona = ps.adicionarPersona(pid_persona, pCedula, pCorreo, pNombre);
 		return persona;
 	}
 
@@ -289,6 +293,13 @@ public class VOSupermercado {
 		return ps.darCategoria(pnombre);
 	}
 	
+	public PersonaNatural darClientePorCedula(int pCedula)
+	{
+		return ps.darClientePorCedula(pCedula);
+	}
+	
+	
+	
 	public VOProducto darProductoPorNombre(String pNombre)
 	{
 		return ps.darProductoPorNombre(pNombre);
@@ -354,10 +365,10 @@ public class VOSupermercado {
         long [] borrrados = ps.limpiarSupermercado();	
         return borrrados;
 	}
-	public long finalizarPromocion(long pid_promocion)
-	{
-		return ps.finalizarPromocion(pid_promocion);
-	}
+//	public long finalizarPromocion(long pid_promocion)
+//	{
+//		return ps.finalizarPromocion(pid_promocion);
+//	}
 	public List<Object []> consulta1(String fechaInicio, String fechaFin)
 	{
 		return  ps.consulta1(fechaInicio, fechaFin);

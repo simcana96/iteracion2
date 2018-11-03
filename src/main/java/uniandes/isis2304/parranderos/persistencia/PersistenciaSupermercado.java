@@ -4,18 +4,22 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jdo.JDODataStoreException;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 
+import org.apache.log4j.Logger;
 import org.datanucleus.store.rdbms.query.ForwardQueryResult;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import uniandes.isis2304.parranderos.negocio.Carrito;
+import uniandes.isis2304.parranderos.negocio.PersonaNatural;
 import uniandes.isis2304.parranderos.negocio.VOBodega;
 import uniandes.isis2304.parranderos.negocio.VOCategoria;
 import uniandes.isis2304.parranderos.negocio.VOCliente;
@@ -25,6 +29,7 @@ import uniandes.isis2304.parranderos.negocio.VOFactura;
 import uniandes.isis2304.parranderos.negocio.VOMateriaPrima;
 import uniandes.isis2304.parranderos.negocio.VOMateriaPrimaProveedor;
 import uniandes.isis2304.parranderos.negocio.VOPedido;
+import uniandes.isis2304.parranderos.negocio.VOPersonaNatural;
 import uniandes.isis2304.parranderos.negocio.VOProducto;
 import uniandes.isis2304.parranderos.negocio.VOProductoBodega;
 import uniandes.isis2304.parranderos.negocio.VOProductoEstante;
@@ -36,6 +41,14 @@ import uniandes.isis2304.parranderos.negocio.VOSucursal;
 
 public class PersistenciaSupermercado {
 
+	/* ****************************************************************
+	 * 			Constantes
+	 *****************************************************************/
+	/**
+	 * Logger para escribir la traza de la ejecución
+	 */
+	private static Logger log = Logger.getLogger(PersistenciaSupermercado.class.getName());
+	
 	/**
 	 * Cadena para indicar el tipo de sentencias que se va a utilizar en una consulta
 	 */
@@ -49,6 +62,7 @@ public class PersistenciaSupermercado {
 	private SQLBodega sqlBodega;
 	private SQLCategoria sqlCategoria;
 	private SQLCliente sqlCliente;
+	private SQLPromocion sqlPromocion;
 	private SQLEmpresa sqlEmpresa;
 	private SQLProducto sqlProducto;
 	private SQLMateriaPrima sqlMateriaPrima;
@@ -62,6 +76,11 @@ public class PersistenciaSupermercado {
 	private SQLProductoSucursal sqlProductoSucursal;
 	private SQLFactura sqlFactura;
 	private SQLProductoFactura sqlProductoFactura;
+	
+	
+	// Nuevos iteración 2
+	private SQLPersona sqlPersona;
+	private SQLCarrito sqlCarrito;
 	/**
 
 	private SQLPersonaNatural sqlPersonaNatural;
@@ -95,8 +114,12 @@ public class PersistenciaSupermercado {
 		tablas.add("PRODUCTO_FACTURA");
 		tablas.add("PRODUCTO_SUCURSAL");
 		tablas.add("PROMOCION");
+		System.out.println("Me estoy actualizando");
 		tablas.add("PROVEEDOR");
 		tablas.add("SURCURSAL");
+		// Nuevos iteración 2
+		tablas.add("PERSONA");
+		tablas.add("CARRITO");
 
 	}
 	/**
@@ -150,12 +173,15 @@ public class PersistenciaSupermercado {
 		sqlProductoSucursal = new SQLProductoSucursal(this);
 		sqlFactura = new SQLFactura(this);
 		sqlProductoFactura = new SQLProductoFactura(this);
-		/**
+		
+		//Nuevos iteración 2
+		sqlPersona= new SQLPersona(this);
+		sqlCarrito = new SQLCarrito(this);
+		
 
-		sqlPersonaNatural = new SQLPersonaNatural(this);
-		sqlPromocion = new SQLPromocion(this);
+		
+//		sqlPromocion = new SQLPromocion(this);
 
-		 */
 		sqlUtil = new SQLUtil(this);
 	}
 
@@ -167,78 +193,87 @@ public class PersistenciaSupermercado {
 	{
 		return tablas.get(0);
 	}
-	public String darBodega()
+	public String darTablaBodega()
 	{
 		return tablas.get(1);
 	}
-	public String darCategoria()
+	public String darTablaCategoria()
 	{
 		return tablas.get(2);
 	}
-	public String darCliente()
+	public String darTablaCliente()
 	{
 		return tablas.get(3);
 	}
-	public String darEmpresa()
+	public String darTablaEmpresa()
 	{
 		return tablas.get(4);
 	}
-	public String darEstante()
+	public String darTablaEstante()
 	{
 		return tablas.get(5);
 	}
-	public String darFactura()
+	public String darTablaFactura()
 	{
 		return tablas.get(6);
 	}
-	public String darMateriaPrima()
+	public String darTablaMateriaPrima()
 	{
 		return tablas.get(7);
 	}
-	public String darMateriaPrimaProveedor()
+	public String darTablaMateriaPrimaProveedor()
 	{
 		return tablas.get(8);
 	}
-	public String darPedido()
+	public String darTablaPedido()
 	{
 		return tablas.get(9);
 	}
-	public String darPersonaNatural()
+	public String darTablaPersonaNatural()
 	{
 		return tablas.get(10);
 	}
-	public String darProducto()
+	public String darTablaProducto()
 	{
 		return tablas.get(11);
 	}
-	public String darProductoBodega()
+	public String darTablaProductoBodega()
 	{
 		return tablas.get(12);
 	}
-	public String darProductoEstante()
+	public String darTablaProductoEstante()
 	{
 		return tablas.get(13);
 	}
-	public String darProductoFactura()
+	public String darTablaProductoFactura()
 	{
 		return tablas.get(14);
 	}
-	public String darProductoSucursal()
+	public String darTablaProductoSucursal()
 	{
 		return tablas.get(15);
 	}
-	public String darPromocion()
+	public String darTablaPromocion()
 	{
 		return tablas.get(16);
 	}
-	public String darProveedor()
+	public String darTablaProveedor()
 	{
 		return tablas.get(17);
 	}
-	public String darSucursal()
+	public String darTablaSucursal()
 	{
 		return tablas.get(18);
 	}
+	public String darTablaPersona()
+	{
+		return tablas.get(19);
+	}
+	public String darTablaCarrito()
+	{
+		return tablas.get(20);
+	}
+
 
 	/**
 	 * devuelve la instancia
@@ -369,6 +404,7 @@ public class PersistenciaSupermercado {
 			tx.begin();
 			long id_cliente = nextval();
 			long tuplasInsertadas = sqlCliente.adicionarCliente(pm,id_cliente, pnombre, pcorreo, ppuntos);
+			
 			tx.commit();
 			return new VOCliente(id_cliente, pnombre, pcorreo, ppuntos);
 		}
@@ -387,6 +423,37 @@ public class PersistenciaSupermercado {
 			pm.close();
 		}
 	}
+	
+	public Carrito adicionarCarrito( long idSucursal, long idPersona )
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			long id_carrito = nextval();
+			long tuplasInsertadas = sqlCarrito.adicionarCarrito(pm, id_carrito, idSucursal, idPersona );
+			log.trace ("Inserción de tipo del carrito con id: " + id_carrito + ": " + tuplasInsertadas + " tuplas insertadas");
+			tx.commit();
+			return new Carrito( id_carrito, idSucursal, idPersona );
+		}
+		catch(Exception e)
+		{
+
+			e.printStackTrace();
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null;
+		}
+		finally
+		{
+			if(tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
+	}
+
 	/**
 	 * adciona una empresa
 	 * @param pnit
@@ -594,32 +661,32 @@ public class PersistenciaSupermercado {
 	 * @param pcedula
 	 * @return
 	 */
-	public VOPersonaNatural adicionarPersona(long pid_persona, int pcedula)
-	{
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Transaction tx=pm.currentTransaction();
-		try
-		{
-			tx.begin();
-			long tuplasInsertadas = sqlPersonaNatural.adicionarPersonaNatural(pm, pid_persona, pcedula);
-			tx.commit();
-			return new VOPersonaNatural(pcedula);
-		}
-		catch(Exception e)
-		{
-
-			e.printStackTrace();
-			return null;
-		}
-		finally
-		{
-			if(tx.isActive())
-			{
-				tx.rollback();
-			}
-			pm.close();
-		}
-	}
+//	public PersonaNatural adicionarPersona(long pid_persona, int pcedula)
+//	{
+//		PersistenceManager pm = pmf.getPersistenceManager();
+//		Transaction tx=pm.currentTransaction();
+//		try
+//		{
+//			tx.begin();
+//			long tuplasInsertadas = sqlPersonaNatural.adicionarPersonaNatural(pm, pid_persona, pcedula);
+//			tx.commit();
+//			return new PersonaNatural(pcedula);
+//		}
+//		catch(Exception e)
+//		{
+//
+//			e.printStackTrace();
+//			return null;
+//		}
+//		finally
+//		{
+//			if(tx.isActive())
+//			{
+//				tx.rollback();
+//			}
+//			pm.close();
+//		}
+//	}
 	/**
 	 * adiciona una producto
 	 * @param pnombre
@@ -804,34 +871,34 @@ public class PersistenciaSupermercado {
 	 * @param fechavencimiento
 	 * @return
 	 */
-	public VOPromocion adicionarPromocion(String ptipo , int punidades_disponibles , long pid_producto ,long fechavencimiento)
-	{
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Transaction tx=pm.currentTransaction();
-		try
-		{
-			tx.begin();
-			Timestamp fecha = new Timestamp(fechavencimiento);
-			long pid_promocion = nextval();
-			long tuplasInsertadas = sqlPromocion.adicionarPromocion(pm, pid_promocion, ptipo, punidades_disponibles, pid_producto, fecha);
-			tx.commit();
-			return new VOPromocion(pid_promocion, ptipo, punidades_disponibles, pid_producto, fecha);
-		}
-		catch(Exception e)
-		{
-
-			e.printStackTrace();
-			return null;
-		}
-		finally
-		{
-			if(tx.isActive())
-			{
-				tx.rollback();
-			}
-			pm.close();
-		}
-	}
+//	public VOPromocion adicionarPromocion(String ptipo , int punidades_disponibles , long pid_producto ,long fechavencimiento)
+//	{
+//		PersistenceManager pm = pmf.getPersistenceManager();
+//		Transaction tx=pm.currentTransaction();
+//		try
+//		{
+//			tx.begin();
+//			Timestamp fecha = new Timestamp(fechavencimiento);
+//			long pid_promocion = nextval();
+//			long tuplasInsertadas = sqlPromocion.adicionarPromocion(pm, pid_promocion, ptipo, punidades_disponibles, pid_producto, fecha);
+//			tx.commit();
+//			return new VOPromocion(pid_promocion, ptipo, punidades_disponibles, pid_producto, fecha);
+//		}
+//		catch(Exception e)
+//		{
+//
+//			e.printStackTrace();
+//			return null;
+//		}
+//		finally
+//		{
+//			if(tx.isActive())
+//			{
+//				tx.rollback();
+//			}
+//			pm.close();
+//		}
+//	}
 	/**
 	 * adiciona un proveedor
 	 * @param pnit
@@ -910,6 +977,16 @@ public class PersistenciaSupermercado {
 	public VOCategoria darCategoria(String pNombre)
 	{
 		return sqlCategoria.darCategoria(pmf.getPersistenceManager(), pNombre);
+	}
+	
+	/**
+	 * Da el cliente según su id.  
+	 * @param pid Id del cliente. 
+	 * @return
+	 */
+	public PersonaNatural darClientePorCedula(Integer pCedula) {
+		
+		return sqlPersona.darPersona(pmf.getPersistenceManager(), pCedula);
 	}
 	/**
 	 * da un producto por nombre
@@ -1138,10 +1215,10 @@ public class PersistenciaSupermercado {
 	 * @param pid_promocion
 	 * @return
 	 */
-	public long finalizarPromocion(long pid_promocion)
-	{
-		return sqlPromocion.deletePromocion(pmf.getPersistenceManager(), pid_promocion);
-	}
+//	public long finalizarPromocion(long pid_promocion)
+//	{
+//		return sqlPromocion.deletePromocion(pmf.getPersistenceManager(), pid_promocion);
+//	}
 	/**
 	 * genera la consulta 1
 	 * @return
@@ -1206,4 +1283,47 @@ public class PersistenciaSupermercado {
 	{
 		
 	}
+	public VOPersonaNatural adicionarPersona(long pid_persona, int pCedula, String pCorreo, String pNombre) {
+		PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        try
+        {
+            tx.begin(); 
+            
+            long tuplasInsertadas = sqlPersona.adicionarPersona(pm,  pNombre,  pCorreo, pCedula);
+            tx.commit();
+            log.trace ("Inserción Persona: " + pNombre+ ": " + tuplasInsertadas + " tuplas insertadas");
+            return new PersonaNatural(pNombre,  pCorreo, pCedula);
+        }
+        catch (Exception e)
+        {
+        	e.printStackTrace();
+        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return null;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+	}
+	/**
+	 * Extrae el mensaje de la exception JDODataStoreException embebido en la Exception e, que da el detalle específico del problema encontrado
+	 * @param e - La excepción que ocurrio
+	 * @return El mensaje de la excepción JDO
+	 */
+	private String darDetalleException(Exception e) 
+	{
+		String resp = "";
+		if (e.getClass().getName().equals("javax.jdo.JDODataStoreException"))
+		{
+			JDODataStoreException je = (javax.jdo.JDODataStoreException) e;
+			return je.getNestedExceptions() [0].getMessage();
+		}
+		return resp;
+	}
+
 }

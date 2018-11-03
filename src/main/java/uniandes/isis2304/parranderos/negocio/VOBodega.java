@@ -104,11 +104,11 @@ public class VOBodega {
 		return "Bodega id : " + id_Bodega;
 	}
 	
-	public long limpiarBodegas ()
-	{
-        long borrrados = ps.limpiarBodegas();	
-        return borrrados;
-	}
+//	public long limpiarBodegas ()
+//	{
+//        long borrrados = ps.limpiarBodegas();	
+//        return borrrados;
+//	}
 	
 	
 }
