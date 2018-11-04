@@ -12,3 +12,12 @@
 21:19:48,682 (AWT-EventQueue-0) ERROR [uniandes.isis2304.parranderos.persistencia.PersistenciaSupermercado] - Exception : Error con la ejecucion de Query de SQL "INSERT INTO CARRITO(id, idSucursal, idCliente) values (?, ?, ?)".
 ORA-00904: "IDCLIENTE": identificador no válido
 
+02:03:06,386 (AWT-EventQueue-0) ERROR [uniandes.isis2304.parranderos.persistencia.PersistenciaSupermercado] - Exception : Error con la ejecucion de Query de SQL "INSERT INTO PRODUCTOCARRITO(id_producto, id_carrito, cantidad_productos) values (?, ?, ?)".
+ORA-00942: la tabla o vista no existe
+
+02:06:15,117 (AWT-EventQueue-0) ERROR [uniandes.isis2304.parranderos.persistencia.PersistenciaSupermercado] - Exception : Error con la ejecucion de Query de SQL "INSERT INTO CARRITO_PRODUCTO(id_producto, id_carrito, cantidad_productos) values (?, ?, ?)".
+ORA-02291: restricción de integridad (ISIS2304A201820.CARRITO_PRODUCTO_FK2) violada - clave principal no encontrada
+
+15:36:04,704 (AWT-EventQueue-0) ERROR [uniandes.isis2304.parranderos.persistencia.PersistenciaSupermercado] - Exception : Error con la ejecucion de Query de SQL "INSERT INTO CARRITO_PRODUCTO(id_producto, id_carrito, id_estante,  id cantidad_productos) values (?, ?, ?,?)".
+ORA-00917: falta la coma
+

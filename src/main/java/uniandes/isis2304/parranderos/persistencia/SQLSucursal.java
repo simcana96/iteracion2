@@ -32,7 +32,7 @@ private final static String SQL = PersistenciaSupermercado.SQL;
 	
 	public VOSucursal darSucursalPorId(PersistenceManager pm, long idSucursal)
 	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM sucursal WHERE ID_SUCURSAL=?");
+		Query q = pm.newQuery(SQL, "SELECT * FROM sucursal WHERE ID_SUCURSAL = ?");
 		q.setResultClass(VOSucursal.class);
 		q.setParameters(idSucursal);
 		return (VOSucursal) q.executeUnique();

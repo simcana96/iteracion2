@@ -28,7 +28,8 @@ private final static String SQL = PersistenciaSupermercado.SQL;
 	
 	public VOProducto darProductoPorId(PersistenceManager pm, long idProducto)
 	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM producto WHERE ID_PRODUCTO = ?");
+		System.out.println(ps.darTablaProducto());
+		Query q = pm.newQuery(SQL, "SELECT * FROM "+ ps.darTablaProducto() + " WHERE ID_PRODUCTO = ?");
 		q.setResultClass(VOProducto.class);
 		q.setParameters(idProducto);
 		return (VOProducto) q.executeUnique();

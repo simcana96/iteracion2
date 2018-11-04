@@ -1,11 +1,6 @@
 package uniandes.isis2304.parranderos.negocio;
 
-/**
- * Interfaz para los métodos get de carrito.
- * Sirve para proteger la información del negocio de posibles manipulaciones desde la interfaz 
- * 
- */
-public interface VOCarrito
+public interface VOProductoCarrito 
 {
 	/* ****************************************************************
 	 * 			Métodos 
@@ -16,20 +11,23 @@ public interface VOCarrito
 	public long getId_Carrito();
 	
 	/**
-	 * @return El id del cliente que usa el carrito
+	 * @return El id del producto 
 	 */
-	public long getId_Cliente();
+	public long getId_Producto();
 	
 	/**
-	 * @return El id de la sucursal que tiene el carrito 
+	 * @return El id del producto 
 	 */
-	public long getId_Sucursal();
+	public long getId_Estante();
+	
+	/**
+	 * @return La cantidad del  producto que queremos
+	 */
+	public int getCantidad_Productos();
 	
 	@Override
 	/**
 	 * @return Una cadena de caracteres con todos los atributos del carrito
 	 */
 	public String toString();
-	
-	
 }

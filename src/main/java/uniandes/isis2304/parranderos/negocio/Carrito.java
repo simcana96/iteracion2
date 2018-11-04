@@ -1,7 +1,7 @@
 package uniandes.isis2304.parranderos.negocio;
 
 /**
- * Clase para modelar el concepto BEBIDA del negocio de los Parranderos
+ * Clase para modelar el concepto CARRITO del negocio del supermercado
  *
  */
 public class Carrito implements VOCarrito
@@ -12,17 +12,17 @@ public class Carrito implements VOCarrito
 	/**
 	 * El identificador ÚNICO del carrito
 	 */
-	private long id;
+	private long id_Carrito;
 	
 	/**
 	 * El identificador ÚNICO de la sucursal que tiene el carrito. 
 	 */
-	private long idSucursal;
+	private long id_Sucursal;
 	
 	/**
 	 * El identificador ÚNICO del cliente que usa el carrito. 
 	 */
-	private long idCliente;
+	private long id_Cliente;
 	
 	
 	/* ****************************************************************
@@ -33,47 +33,47 @@ public class Carrito implements VOCarrito
 	 */
 	public Carrito() 
 	{
-		this.id = 0;
-		this.idSucursal = 0;
-		this.idCliente = 0;
+		this.id_Carrito= 0;
+		this.id_Sucursal = 0;
+		this.id_Cliente = 0;
 		
 	}
 
 	/**
 	 * Constructor con valores
-	 * @param id - Id del carrito 
-	 * @param pIdCliente - Id del cliente que usa el carrito
-	 * @param pIdSucursal - Id de la sucursal que tiene el carrito. 
+	 * @param id_Carrito- id_Carritodel carrito 
+	 * @param pid_Cliente - id_Carritodel cliente que usa el carrito
+	 * @param pid_Sucursal - Id de la sucursal que tiene el carrito. 
 	 */
-	public Carrito(long id, long pIdCliente, long pIdSucursal) 
+	public Carrito(long id, long pid_Cliente, long pid_Sucursal) 
 	{
-		this.id = id;
-		this.idSucursal = pIdSucursal;
-		this.idCliente = pIdCliente;
+		this.id_Carrito= id;
+		this.id_Sucursal = pid_Sucursal;
+		this.id_Cliente = pid_Cliente;
 	}
 
-	public long getId() {
-		return id;
+	public long getId_Carrito() {
+		return id_Carrito;
 	}
 
-	public long getIdSucursal() {
-		return idSucursal;
+	public long getId_Sucursal() {
+		return id_Sucursal;
 	}
 
-	public long getIdCliente() {
-		return idCliente;
+	public long getId_Cliente() {
+		return id_Cliente;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setId_Carrito(long id) {
+		this.id_Carrito= id;
 	}
 
-	public void setIdSucursal(long idSucursal) {
-		this.idSucursal = idSucursal;
+	public void setId_Sucursal(long id_Sucursal) {
+		this.id_Sucursal = id_Sucursal;
 	}
 
-	public void setIdCliente(long idCliente) {
-		this.idCliente = idCliente;
+	public void setId_Cliente(long id_Cliente) {
+		this.id_Cliente = id_Cliente;
 	}
 	
 	/**
@@ -82,6 +82,6 @@ public class Carrito implements VOCarrito
 	@Override
 	public String toString() 
 	{
-		return "Carrito [id=" + id + ", idCliente=" + idCliente + ", idSucursal=" + idSucursal+ " ]";
+		return "Carrito [id=" + id_Carrito+ ", id_Cliente=" + id_Cliente + ", id_Sucursal=" + id_Sucursal+ " ]";
 	}
 }

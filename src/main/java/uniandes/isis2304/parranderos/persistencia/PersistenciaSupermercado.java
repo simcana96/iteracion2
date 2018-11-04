@@ -20,7 +20,9 @@ import com.google.gson.JsonObject;
 
 import uniandes.isis2304.parranderos.negocio.Carrito;
 import uniandes.isis2304.parranderos.negocio.PersonaNatural;
+import uniandes.isis2304.parranderos.negocio.ProductoCarrito;
 import uniandes.isis2304.parranderos.negocio.VOBodega;
+import uniandes.isis2304.parranderos.negocio.VOCarrito;
 import uniandes.isis2304.parranderos.negocio.VOCategoria;
 import uniandes.isis2304.parranderos.negocio.VOCliente;
 import uniandes.isis2304.parranderos.negocio.VOEmpresa;
@@ -81,6 +83,7 @@ public class PersistenciaSupermercado {
 	// Nuevos iteración 2
 	private SQLPersona sqlPersona;
 	private SQLCarrito sqlCarrito;
+	private SQLProductoCarrito sqlProductoCarrito;
 	/**
 
 	private SQLPersonaNatural sqlPersonaNatural;
@@ -177,6 +180,7 @@ public class PersistenciaSupermercado {
 		//Nuevos iteración 2
 		sqlPersona= new SQLPersona(this);
 		sqlCarrito = new SQLCarrito(this);
+		sqlProductoCarrito = new SQLProductoCarrito(this);
 		
 
 		
@@ -235,7 +239,7 @@ public class PersistenciaSupermercado {
 	}
 	public String darTablaProducto()
 	{
-		return tablas.get(11);
+		return tablas.get(10);
 	}
 	public String darTablaProductoBodega()
 	{
@@ -272,6 +276,10 @@ public class PersistenciaSupermercado {
 	public String darTablaCarrito()
 	{
 		return tablas.get(19);
+	}
+	public String darTablaProductoCarrito()
+	{
+		return tablas.get(20);
 	}
 
 
@@ -454,6 +462,37 @@ public class PersistenciaSupermercado {
 		}
 	}
 
+	public ProductoCarrito adicionarProductoCarrito(long idCarrito, long idProducto,long id_estante, int cantidad)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			
+			long tuplasInsertadas = sqlProductoCarrito.adicionarProductoCarrito(pm, idProducto, idCarrito, id_estante, cantidad);
+			log.trace ("Inserción de un producto con id: " + idProducto + ". En el carrito: "+ idCarrito  +" "+ tuplasInsertadas + " tuplas insertadas");
+			tx.commit();
+			return new ProductoCarrito( idProducto, idCarrito, cantidad );
+		}
+		catch(Exception e)
+		{
+
+			e.printStackTrace();
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null;
+		}
+		finally
+		{
+			if(tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
+
+		
+	}
 	/**
 	 * adciona una empresa
 	 * @param pnit
@@ -988,6 +1027,24 @@ public class PersistenciaSupermercado {
 		
 		return sqlCliente.darClientePorCorreo(pmf.getPersistenceManager(), pCorreo);
 	}
+	
+	public VOCarrito darCarrito(long id_Carrito) {
+	
+		return sqlCarrito.darCarritoPorId(pmf.getPersistenceManager(),id_Carrito);
+	}
+	
+	public Long darEstanteDelProducto( long id_producto, long id_sucursal) {
+		System.out.println(id_producto + " "+ id_sucursal);
+		Query as= pmf.getPersistenceManager().newQuery(SQL,"select b.id_estante from Estante b, producto_estante c where b.id_estante = c.id_estante and id_sucursal = 65 and id_producto = 123 ");
+		as.setParameters(id_sucursal,id_producto);
+		
+		
+		System.out.println(as.execute().toString());
+		String resultado1 = as.execute().toString().substring(1,3);
+		System.out.println(resultado1);
+		Long resultado = Long.parseLong(resultado1);
+		return resultado;
+	}
 	/**
 	 * da un producto por nombre
 	 * @param pNombre
@@ -1325,5 +1382,8 @@ public class PersistenciaSupermercado {
 		}
 		return resp;
 	}
+	
+	
+	
 
 }

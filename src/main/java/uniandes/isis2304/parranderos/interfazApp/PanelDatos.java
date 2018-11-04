@@ -70,7 +70,7 @@ public class PanelDatos extends JPanel
      */
     public void actualizarInterfaz (String texto)
     {
-    	textArea.setText(texto);
+    	textArea.setText(textArea.getText() + "\n"+ texto);
     }
 
 }

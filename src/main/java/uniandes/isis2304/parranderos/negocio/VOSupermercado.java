@@ -69,6 +69,11 @@ public class VOSupermercado {
 	{
 		return ps.adicionarCarrito(idSucursal, idCliente);
 	}
+	
+	public ProductoCarrito adicionarProductoCarrito(long idCarrito, long idProducto, long id_estante, int cantidad) 
+	{
+		return ps.adicionarProductoCarrito(idCarrito, idProducto, id_estante, cantidad);
+	}
 	/**
 	 * Registra un Cliente nuevo
 	 * @param pnombre
@@ -410,6 +415,18 @@ public class VOSupermercado {
 		long borradas = ps.limpiarProveedores();
 		return borradas;
 	}
+
+	public VOCarrito darcarrito(long id_Carrito) {
+		
+		return ps.darCarrito(id_Carrito);
+	}
+
+	public Long darEstantePorIdProducto(long id_producto, long id_sucursal) {
+		return ps.darEstanteDelProducto(id_producto, id_sucursal);
+		
+	}
+
+	
 }
 
 

@@ -18,6 +18,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import org.datanucleus.identity.IdentityUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -25,6 +27,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.InterningXmlVisitor;
 
+import uniandes.isis2304.parranderos.negocio.Carrito;
 import uniandes.isis2304.parranderos.negocio.PersonaNatural;
 import uniandes.isis2304.parranderos.negocio.VOBodega;
 import uniandes.isis2304.parranderos.negocio.VOCarrito;
@@ -38,6 +41,7 @@ import uniandes.isis2304.parranderos.negocio.VOPedido;
 import uniandes.isis2304.parranderos.negocio.VOPersonaNatural;
 import uniandes.isis2304.parranderos.negocio.VOProducto;
 import uniandes.isis2304.parranderos.negocio.VOProductoBodega;
+import uniandes.isis2304.parranderos.negocio.VOProductoCarrito;
 import uniandes.isis2304.parranderos.negocio.VOProductoEstante;
 import uniandes.isis2304.parranderos.negocio.VOProductoFactura;
 import uniandes.isis2304.parranderos.negocio.VOProductoSucursal;
@@ -701,7 +705,7 @@ public class InterfazSupermercado extends JFrame implements ActionListener {
   					if( sucursal1 != null)
   					{
   						VOCarrito carrito = supermercado.adicionarCarrito(id_sucursal, cliente.getId_cliente());
-  						panelDatos.actualizarInterfaz("El carrito con " + carrito.getId() +" se ha asignado al cliente " + cliente.getNombre() );
+  						panelDatos.actualizarInterfaz("El carrito con " + carrito.getId_Carrito() +" se ha asignado al cliente " + cliente.getNombre() );
   					}
   					else
   					{
@@ -720,6 +724,62 @@ public class InterfazSupermercado extends JFrame implements ActionListener {
   			}
   		
   		
+  	}
+  	
+  	public void adicionarProductoCarrito()
+  	{
+  		
+  		String idCarrito = JOptionPane.showInputDialog (this, "¿Cual es tu id_carrito?", "Adicionar producto al carro", JOptionPane.QUESTION_MESSAGE);
+  		if( isId(idCarrito))
+  		{
+  			Long id_Carrito = Long.parseLong(idCarrito);
+  			VOCarrito carro = supermercado.darcarrito(id_Carrito);
+  			// Preguntar el id Del producto 
+  			
+  			if( carro != null)
+  			{
+  				String idProducto = JOptionPane.showInputDialog (this, "¿Cual es tu id_producto?", "Adicionar producto al carro", JOptionPane.QUESTION_MESSAGE);
+  				if( isId(idProducto) )
+  	  			{
+  	  				Long id_Producto = Long.parseLong(idProducto);
+  	  				System.out.println(supermercado.darProductoPorId(id_Producto));
+  	  				VOProducto producto = supermercado.darProductoPorId(id_Producto);
+  	  				if( producto != null)
+  	  				{
+  	  					String pCantidad = JOptionPane.showInputDialog (this, "¿Cantidad del producto?", "Adicionar producto al carro", JOptionPane.QUESTION_MESSAGE);
+  	  	  				if( isNumeric(pCantidad))
+  	  	  				{
+  	  	  					int cantidad = Integer.parseInt(pCantidad);
+  	  	  					Long estante = supermercado.darEstantePorIdProducto(producto.getId_producto(),carro.getId_Sucursal());
+  	  	  					VOProductoCarrito pc = supermercado.adicionarProductoCarrito(carro.getId_Carrito(), producto.getId_producto(), estante, cantidad);
+  	  	  					supermercado.actualizarUnaVenta(producto.getId_producto(), estante, cantidad);
+  	  	  					panelDatos.actualizarInterfaz("El producto con " + producto.getId() +" se ha colocado en el carrito " + id_Carrito );
+  	  	  				}
+  	  	  				else
+  	  	  				{
+  	  	  					JOptionPane.showMessageDialog(null, "Lo ingresado no es un numero, intente con un numero válido", "Parranderos App", JOptionPane.ERROR_MESSAGE);
+  	  	  				}
+  	  				}
+  	  				else
+  	  				{
+  	  					JOptionPane.showMessageDialog(null, "Lo ingresado no es un id de producto válido, intente con un id de producto válido", "Parranderos App", JOptionPane.ERROR_MESSAGE);
+  	  				}
+  	  				
+  	  			}
+  	  			else
+  	  			{
+  	  				JOptionPane.showMessageDialog(null, "Lo ingresado no es un numero, intente con un numero válido", "Parranderos App", JOptionPane.ERROR_MESSAGE);
+  	  			}
+  			}
+  			else
+  			{
+  				JOptionPane.showMessageDialog(null, "Lo ingresado no es un id de carrito válido, intente con un id de carrito válido", "Parranderos App", JOptionPane.ERROR_MESSAGE);
+  			}
+  		}
+  		else
+  		{
+  			JOptionPane.showMessageDialog(null, "Lo ingresado no es un numero, intente con un numero válido", "Parranderos App", JOptionPane.ERROR_MESSAGE);
+		}
   	}
 
   	//-------------------------------------------------------------------

@@ -133,6 +133,10 @@ public class VOProducto {
 	public void setCantidad_presentacion(int cantidad_presentacion) {
 		this.cantidad_presentacion = cantidad_presentacion;
 	}
+	public long getId() {
+		// TODO Auto-generated method stub
+		return id_producto;
+	}
 	
 	
 }
