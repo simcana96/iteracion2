@@ -231,7 +231,7 @@ public class PersistenciaSupermercado {
 	}
 	public String darTablaPersonaNatural()
 	{
-		return tablas.get(10);
+		return tablas.get(9);
 	}
 	public String darTablaProducto()
 	{
@@ -271,7 +271,7 @@ public class PersistenciaSupermercado {
 	}
 	public String darTablaCarrito()
 	{
-		return tablas.get(20);
+		return tablas.get(19);
 	}
 
 
@@ -984,9 +984,9 @@ public class PersistenciaSupermercado {
 	 * @param pid Id del cliente. 
 	 * @return
 	 */
-	public PersonaNatural darClientePorCedula(Integer pCedula) {
+	public VOCliente darClientePorCorreo(String pCorreo) {
 		
-		return sqlPersona.darPersona(pmf.getPersistenceManager(), pCedula);
+		return sqlCliente.darClientePorCorreo(pmf.getPersistenceManager(), pCorreo);
 	}
 	/**
 	 * da un producto por nombre

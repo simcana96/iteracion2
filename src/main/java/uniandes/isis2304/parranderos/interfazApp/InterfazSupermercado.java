@@ -27,6 +27,7 @@ import com.sun.xml.internal.bind.v2.runtime.unmarshaller.InterningXmlVisitor;
 
 import uniandes.isis2304.parranderos.negocio.PersonaNatural;
 import uniandes.isis2304.parranderos.negocio.VOBodega;
+import uniandes.isis2304.parranderos.negocio.VOCarrito;
 import uniandes.isis2304.parranderos.negocio.VOCategoria;
 import uniandes.isis2304.parranderos.negocio.VOCliente;
 import uniandes.isis2304.parranderos.negocio.VOEstante;
@@ -686,12 +687,11 @@ public class InterfazSupermercado extends JFrame implements ActionListener {
   	//------------------------------------------------------------------
   	public void solicitarCarrito()
   	{
-  		String clienteId = JOptionPane.showInputDialog (this, "¿Cual es tu cedula?", "Adicionar carrito a cliente", JOptionPane.QUESTION_MESSAGE);
-  		if( isNumeric(clienteId))
-  		{
-  			Integer pCedula = Integer.parseInt(clienteId);
-  			PersonaNatural persona = supermercado.darClientePorCedula(pCedula);
-  			if( persona != null)
+  		String correoCliente = JOptionPane.showInputDialog (this, "¿Cual es tu correo?", "Adicionar carrito a cliente", JOptionPane.QUESTION_MESSAGE);
+  		
+  			
+  			VOCliente cliente = supermercado.darClientePorCorreo(correoCliente);
+  			if( cliente != null)
   			{
   				String sucursal = JOptionPane.showInputDialog (this, "¿En que sucursal te encuentras? Escribe el id", "Adicionar carrito a cliente", JOptionPane.QUESTION_MESSAGE);
   				if( isId(sucursal))
@@ -700,7 +700,8 @@ public class InterfazSupermercado extends JFrame implements ActionListener {
   					VOSucursal sucursal1 = supermercado.darSucursalPorId(id_sucursal);
   					if( sucursal1 != null)
   					{
-  						supermercado.adicionarCarrito(id_sucursal, persona.getId());
+  						VOCarrito carrito = supermercado.adicionarCarrito(id_sucursal, cliente.getId_cliente());
+  						panelDatos.actualizarInterfaz("El carrito con " + carrito.getId() +" se ha asignado al cliente " + cliente.getNombre() );
   					}
   					else
   					{
@@ -717,11 +718,7 @@ public class InterfazSupermercado extends JFrame implements ActionListener {
   			{
   				JOptionPane.showMessageDialog(null, "Su cedula no está registrada en la base de datos, intente con un numero válido", "Parranderos App", JOptionPane.ERROR_MESSAGE);
   			}
-  		}
-  		else
-  		{
-  			JOptionPane.showMessageDialog(null, "No es un numero entero válido por favor intente de nuevo", "Parranderos App", JOptionPane.ERROR_MESSAGE);
-  		}
+  		
   		
   	}
 

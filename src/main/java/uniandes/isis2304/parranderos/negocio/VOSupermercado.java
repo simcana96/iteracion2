@@ -293,9 +293,9 @@ public class VOSupermercado {
 		return ps.darCategoria(pnombre);
 	}
 	
-	public PersonaNatural darClientePorCedula(int pCedula)
+	public VOCliente darClientePorCorreo(String pCorreo)
 	{
-		return ps.darClientePorCedula(pCedula);
+		return ps.darClientePorCorreo(pCorreo);
 	}
 	
 	

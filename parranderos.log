@@ -7,3 +7,8 @@
 10:19:22,882 (main) INFO  [uniandes.isis2304.parranderos.interfazApp.InterfazParranderosApp] - Se encontró un archivo de configuración válido: Interfaz
 10:19:22,885 (main) INFO  [uniandes.isis2304.parranderos.interfazApp.InterfazParranderosApp] - Se aplica configuración indicada en el archivo de configuración
 10:19:22,946 (main) INFO  [uniandes.isis2304.parranderos.interfazApp.InterfazParranderosApp] - Se encontró un archivo de configuración válido: Tablas BD
+21:15:26,349 (AWT-EventQueue-0) ERROR [uniandes.isis2304.parranderos.persistencia.PersistenciaSupermercado] - Exception : Index: 20, Size: 20
+
+21:19:48,682 (AWT-EventQueue-0) ERROR [uniandes.isis2304.parranderos.persistencia.PersistenciaSupermercado] - Exception : Error con la ejecucion de Query de SQL "INSERT INTO CARRITO(id, idSucursal, idCliente) values (?, ?, ?)".
+ORA-00904: "IDCLIENTE": identificador no válido
+

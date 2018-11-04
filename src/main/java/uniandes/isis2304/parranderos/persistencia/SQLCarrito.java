@@ -40,7 +40,7 @@ class SQLCarrito
 	
 	public long adicionarCarrito(PersistenceManager pm, long idCarrito, long idSucursal,  long idPersona )
 	{
-		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaCarrito()  + "(id, idSucursal, idCliente) values (?, ?, ?)");
+		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaCarrito()  + "(id_carrito, id_Sucursal, id_Cliente) values (?, ?, ?)");
         q.setParameters( idCarrito, idSucursal, idPersona);
         return (long) q.executeUnique();  
 	}

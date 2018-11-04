@@ -40,5 +40,13 @@ public class SQLCliente {
 		q.setParameters(idCliente);
 		return (VOCliente) q.executeUnique();
 	}
+	
+	public VOCliente darClientePorCorreo(PersistenceManager pm , String correoCliente)
+	{
+		Query q = pm.newQuery(SQL, "SELECT * FROM " + ps.darTablaCliente() + " WHERE CORREO = ?");
+		q.setResultClass(VOCliente.class);
+		q.setParameters(correoCliente);
+		return (VOCliente) q.executeUnique();
+	}
 
 }
