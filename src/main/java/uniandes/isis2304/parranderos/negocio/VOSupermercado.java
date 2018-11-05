@@ -426,6 +426,26 @@ public class VOSupermercado {
 		
 	}
 
+	public ProductoCarrito darProductoCarrito(Long id_Producto, Long id_Carrito) {
+		// TODO Auto-generated method stub
+		return ps.darProductoCarrito(id_Producto, id_Carrito);
+	}
+
+	public void actualizarEstanteProducto(Long id_Producto, Long estante, int cantidad) {
+		ps.actualizarEstanteProducto(id_Producto, estante, cantidad);
+		
+	}
+
+	public void eliminarProductoCarrito(Long id_Producto) {
+		ps.eliminarProductoCarrito (id_Producto);
+		
+	}
+
+	public void actualizarProductoCarrito(Long id_Producto, int cantidad, Long id_Carrito) {
+		ps.actualizarProductoCarrito(id_Producto, cantidad, id_Carrito);
+		
+	}
+
 	
 }
 

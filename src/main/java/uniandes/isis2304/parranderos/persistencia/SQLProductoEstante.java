@@ -66,6 +66,13 @@ public class SQLProductoEstante {
 		return (long) q.executeUnique();
 	}
 
+	public void acutalizarCantidadEnEstante (PersistenceManager pm ,Long id_Producto, Long estante, int cantidad)
+	{
+		Query q = pm.newQuery(SQL, "UPDATE producto_estante SET UNIDADES_DISPONIBLES = UNIDADES_DISPONIBLES + ? WHERE ID_PRODUCTO = ? AND ID_ESTANTE = ?");
+		q.setResultClass(VOProductoEstante.class);
+		q.setParameters(cantidad,id_Producto , estante);
+		q.executeUnique();
+	}
 	
 	
 }

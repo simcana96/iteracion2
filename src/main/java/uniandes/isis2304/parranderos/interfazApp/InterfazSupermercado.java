@@ -29,6 +29,7 @@ import com.sun.xml.internal.bind.v2.runtime.unmarshaller.InterningXmlVisitor;
 
 import uniandes.isis2304.parranderos.negocio.Carrito;
 import uniandes.isis2304.parranderos.negocio.PersonaNatural;
+import uniandes.isis2304.parranderos.negocio.ProductoCarrito;
 import uniandes.isis2304.parranderos.negocio.VOBodega;
 import uniandes.isis2304.parranderos.negocio.VOCarrito;
 import uniandes.isis2304.parranderos.negocio.VOCategoria;
@@ -709,18 +710,18 @@ public class InterfazSupermercado extends JFrame implements ActionListener {
   					}
   					else
   					{
-  						JOptionPane.showMessageDialog(null, "La sucursal no está registrada en la base de datos, intente con un numero válido", "Parranderos App", JOptionPane.ERROR_MESSAGE);
+  						JOptionPane.showMessageDialog(null, "La sucursal no está registrada en la base de datos, intente con un numero válido", "Supermercado App", JOptionPane.ERROR_MESSAGE);
   					}
   				}
   				else
   				{
-  					JOptionPane.showMessageDialog(null, "No es un numero entero válido por favor intente de nuevo", "Parranderos App", JOptionPane.ERROR_MESSAGE);
+  					JOptionPane.showMessageDialog(null, "No es un numero entero válido por favor intente de nuevo", "Supermercado App", JOptionPane.ERROR_MESSAGE);
   				}
   				
   			}
   			else
   			{
-  				JOptionPane.showMessageDialog(null, "Su cedula no está registrada en la base de datos, intente con un numero válido", "Parranderos App", JOptionPane.ERROR_MESSAGE);
+  				JOptionPane.showMessageDialog(null, "Su cedula no está registrada en la base de datos, intente con un numero válido", "Supermercado App", JOptionPane.ERROR_MESSAGE);
   			}
   		
   		
@@ -757,31 +758,99 @@ public class InterfazSupermercado extends JFrame implements ActionListener {
   	  	  				}
   	  	  				else
   	  	  				{
-  	  	  					JOptionPane.showMessageDialog(null, "Lo ingresado no es un numero, intente con un numero válido", "Parranderos App", JOptionPane.ERROR_MESSAGE);
+  	  	  					JOptionPane.showMessageDialog(null, "Lo ingresado no es un numero, intente con un numero válido", "Supermercado App", JOptionPane.ERROR_MESSAGE);
   	  	  				}
   	  				}
   	  				else
   	  				{
-  	  					JOptionPane.showMessageDialog(null, "Lo ingresado no es un id de producto válido, intente con un id de producto válido", "Parranderos App", JOptionPane.ERROR_MESSAGE);
+  	  					JOptionPane.showMessageDialog(null, "Lo ingresado no es un id de producto válido, intente con un id de producto válido", "Supermercado App", JOptionPane.ERROR_MESSAGE);
   	  				}
   	  				
   	  			}
   	  			else
   	  			{
-  	  				JOptionPane.showMessageDialog(null, "Lo ingresado no es un numero, intente con un numero válido", "Parranderos App", JOptionPane.ERROR_MESSAGE);
+  	  				JOptionPane.showMessageDialog(null, "Lo ingresado no es un numero, intente con un numero válido", "Supermercado App", JOptionPane.ERROR_MESSAGE);
   	  			}
   			}
   			else
   			{
-  				JOptionPane.showMessageDialog(null, "Lo ingresado no es un id de carrito válido, intente con un id de carrito válido", "Parranderos App", JOptionPane.ERROR_MESSAGE);
+  				JOptionPane.showMessageDialog(null, "Lo ingresado no es un id de carrito válido, intente con un id de carrito válido", "Supermercado App", JOptionPane.ERROR_MESSAGE);
   			}
   		}
   		else
   		{
-  			JOptionPane.showMessageDialog(null, "Lo ingresado no es un numero, intente con un numero válido", "Parranderos App", JOptionPane.ERROR_MESSAGE);
+  			JOptionPane.showMessageDialog(null, "Lo ingresado no es un numero, intente con un numero válido", "Supermercado App", JOptionPane.ERROR_MESSAGE);
 		}
   	}
 
+  	public void devolverProductoCarrito()
+  	{
+  		
+  		String idCarrito = JOptionPane.showInputDialog (this, "¿Cual es tu id_carrito?", "Devolver producto del carro", JOptionPane.QUESTION_MESSAGE);
+  		if( isId(idCarrito))
+  		{
+  			Long id_Carrito = Long.parseLong(idCarrito);
+  			VOCarrito carro = supermercado.darcarrito(id_Carrito);
+  			// Preguntar el id Del producto 
+  			
+  			if( carro != null)
+  			{
+  				String idProducto = JOptionPane.showInputDialog (this, "¿Cual es tu id_producto?", "Devolver producto del carro", JOptionPane.QUESTION_MESSAGE);
+  				if( isId(idProducto) )
+  	  			{
+  	  				Long id_Producto = Long.parseLong(idProducto);
+  	  				VOProducto producto = supermercado.darProductoPorId(id_Producto);
+  	  				if( producto != null)
+  	  				{
+  	  					String pCantidad = JOptionPane.showInputDialog (this, "¿Cantidad del producto a devolver?", "Devolver producto del carro", JOptionPane.QUESTION_MESSAGE);
+  	  	  				if( isNumeric(pCantidad))
+  	  	  				{
+  	  	  					int cantidad = Integer.parseInt(pCantidad);
+  	  	  					Long estante = supermercado.darEstantePorIdProducto(producto.getId_producto(),carro.getId_Sucursal());
+  	  	  					ProductoCarrito pc = supermercado.darProductoCarrito(id_Producto, id_Carrito );
+  	  	  					if( cantidad >= pc.getCantidad_Productos())
+  	  	  					{
+  	  	  						cantidad = pc.getCantidad_Productos();
+  	  	  						supermercado.eliminarProductoCarrito(id_Producto);
+  	  	  					}
+  	  	  					else
+  	  	  					{
+  	  	  						supermercado.actualizarProductoCarrito(id_Producto, cantidad, carro.getId_Carrito());
+  	  	  					}
+  	  	  					if( cantidad <= 0)
+  	  	  					{
+  	  	  						cantidad = 0;
+  	  	  					}
+  	  	  					supermercado.actualizarEstanteProducto(id_Producto, estante , cantidad );
+  	  	  					panelDatos.actualizarInterfaz("El producto con " + producto.getId() +" se ha quitado del carrito " + id_Carrito + 
+  	  	  							" y devuelto al estante "+ estante);
+  	  	  				}
+  	  	  				else
+  	  	  				{
+  	  	  					JOptionPane.showMessageDialog(null, "Lo ingresado no es un numero, intente con un numero válido", "SuperMercado App", JOptionPane.ERROR_MESSAGE);
+  	  	  				}
+  	  				}
+  	  				else
+  	  				{
+  	  					JOptionPane.showMessageDialog(null, "Lo ingresado no es un id de producto válido, intente con un id de producto válido", "SuperMercado App", JOptionPane.ERROR_MESSAGE);
+  	  				}
+  	  				
+  	  			}
+  	  			else
+  	  			{
+  	  				JOptionPane.showMessageDialog(null, "Lo ingresado no es un numero, intente con un numero válido", "SuperMercado App", JOptionPane.ERROR_MESSAGE);
+  	  			}
+  			}
+  			else
+  			{
+  				JOptionPane.showMessageDialog(null, "Lo ingresado no es un id de carrito válido, intente con un id de carrito válido", "Supermercado App", JOptionPane.ERROR_MESSAGE);
+  			}
+  		}
+  		else
+  		{
+  			JOptionPane.showMessageDialog(null, "Lo ingresado no es un numero, intente con un numero válido", "Supermercado App", JOptionPane.ERROR_MESSAGE);
+		}
+  	}
   	//-------------------------------------------------------------------
   	// Métodos adicionales 
   	//-------------------------------------------------------------------

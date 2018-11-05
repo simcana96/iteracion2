@@ -51,11 +51,12 @@ public class ProductoCarrito implements VOProductoCarrito
 	 * @param pIdProducto - Id del producto que está en el carrito.
 	 * @param pCantidad - Cantidad del producto que está en el carrito.
 	 */
-	public ProductoCarrito(long pid_Carrito, long pIdProducto, int pCantidad) 
+	public ProductoCarrito(long pid_Carrito, long pIdProducto, int pCantidad, long pIdEstante) 
 	{
 		this.id_Carrito = pid_Carrito;
 		this.id_Producto= pIdProducto;
 		this.cantidad_Productos = pCantidad;
+		this.id_Estante = pIdEstante;
 	}
 
 	public long getId_Carrito() {

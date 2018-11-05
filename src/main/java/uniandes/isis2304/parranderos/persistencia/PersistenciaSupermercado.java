@@ -473,7 +473,7 @@ public class PersistenciaSupermercado {
 			long tuplasInsertadas = sqlProductoCarrito.adicionarProductoCarrito(pm, idProducto, idCarrito, id_estante, cantidad);
 			log.trace ("Inserción de un producto con id: " + idProducto + ". En el carrito: "+ idCarrito  +" "+ tuplasInsertadas + " tuplas insertadas");
 			tx.commit();
-			return new ProductoCarrito( idProducto, idCarrito, cantidad );
+			return new ProductoCarrito( idProducto, idCarrito, cantidad, id_estante);
 		}
 		catch(Exception e)
 		{
@@ -490,8 +490,7 @@ public class PersistenciaSupermercado {
 			}
 			pm.close();
 		}
-
-		
+				
 	}
 	/**
 	 * adciona una empresa
@@ -1035,7 +1034,7 @@ public class PersistenciaSupermercado {
 	
 	public Long darEstanteDelProducto( long id_producto, long id_sucursal) {
 		System.out.println(id_producto + " "+ id_sucursal);
-		Query as= pmf.getPersistenceManager().newQuery(SQL,"select b.id_estante from Estante b, producto_estante c where b.id_estante = c.id_estante and id_sucursal = 65 and id_producto = 123 ");
+		Query as= pmf.getPersistenceManager().newQuery(SQL,"select b.id_estante from Estante b, producto_estante c where b.id_estante = c.id_estante and id_sucursal = "+ id_sucursal+ " and id_producto = "+ id_producto);
 		as.setParameters(id_sucursal,id_producto);
 		
 		
@@ -1256,6 +1255,11 @@ public class PersistenciaSupermercado {
 	{
 		return sqlProducto.darProductoPorId(pmf.getPersistenceManager(), pid_producto);
 	}
+	
+	public ProductoCarrito darProductoCarrito(Long id_Producto, Long id_Carrito) 
+	{
+		return sqlProductoCarrito.darProductoCarrito(pmf.getPersistenceManager(), id_Producto, id_Carrito);
+	}
 	/**
 	 * actualiza una venta
 	 * @param pid_producto
@@ -1340,6 +1344,35 @@ public class PersistenciaSupermercado {
 	{
 		
 	}
+	
+	public void actualizarEstanteProducto(Long id_Producto, Long estante, int cantidad) {
+		PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        try
+        {
+            tx.begin(); 
+            
+            sqlProductoEstante.acutalizarCantidadEnEstante(pm,id_Producto, estante, cantidad);
+            tx.commit();
+            log.trace ("Actuzalización estante: " + estante+ " del producto " + id_Producto  + " una cantidad de " + cantidad);
+            
+        }
+        catch (Exception e)
+        {
+        	e.printStackTrace();
+        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+		
+	}
 	public VOPersonaNatural adicionarPersona(long pid_persona, int pCedula, String pCorreo, String pNombre) {
 		PersistenceManager pm = pmf.getPersistenceManager();
         Transaction tx=pm.currentTransaction();
@@ -1382,6 +1415,16 @@ public class PersistenciaSupermercado {
 		}
 		return resp;
 	}
+	public void eliminarProductoCarrito(Long id_Producto) {
+		
+		sqlProductoCarrito.eliminarProducto(pmf.getPersistenceManager(), id_Producto);
+	}
+	public void actualizarProductoCarrito(Long id_Producto , int cantidad, Long id_Carrito) {
+		sqlProductoCarrito.actualizarCarrito(pmf.getPersistenceManager(), id_Producto, cantidad, id_Carrito);
+		
+	}
+	
+	
 	
 	
 	
