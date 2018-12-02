@@ -81,19 +81,19 @@
 		  "options":
 			[
 				{
-					"label": "Dinero recogido por sucursales en el a�o",
+					"label": "Dinero recogido por sucursales en el aï¿½o",
 					"event": "consulta1"
 				},
 				{
-					"label": "20 promociones m�s populares",
+					"label": "20 promociones mï¿½s populares",
 					"event": "consulta2"
 				},
 				{
-					"label": "MOSTRAR EL ÍNDICE DE OCUPACIÓN DE CADA UNA DE BODEGAS Y ESTANTES DE UNA SUCURSAL",
+					"label": "MOSTRAR EL Ã�NDICE DE OCUPACIÃ“N DE CADA UNA DE BODEGAS Y ESTANTES DE UNA SUCURSAL",
 					"event": "consulta3"
 				},
 				{
-					"label": "MOSTRAR LOS PRODUCTOS QUE CUMPLEN CON CIERTA CARACTERÍSTICA",
+					"label": "MOSTRAR LOS PRODUCTOS QUE CUMPLEN CON CIERTA CARACTERÃ�STICA",
 					"event": "consulta4"
 				},
 				{
@@ -105,16 +105,8 @@
 					"event": "consulta6"
 				},
 				{
-					"label": "Analizar la operacion de SuperAndes",
+					"label": "Clientes que compra producto en rango",
 					"event": "consulta7"
-				},
-				{
-					"label": "Encontrar los clientes frecuentes",
-					"event": "consulta8"
-				},
-				{
-					"label": "Encontrar lo productos con poca demanda",
-					"event": "consulta9"
 				}
 			]
 		},

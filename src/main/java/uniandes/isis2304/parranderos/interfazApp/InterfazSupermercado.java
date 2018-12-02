@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -1066,6 +1067,55 @@ public class InterfazSupermercado extends JFrame implements ActionListener {
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public void consulta7()
+	{
+		String fechaInicio = JOptionPane.showInputDialog (this, "Fecha de Inicio", "Fecha de inicio", JOptionPane.QUESTION_MESSAGE);
+		String fechaFin = JOptionPane.showInputDialog (this, "Fecha de Fin", "Fecha de fin", JOptionPane.QUESTION_MESSAGE);
+		String id_Producto = JOptionPane.showInputDialog (this, "Id producto", "Id Producto", JOptionPane.QUESTION_MESSAGE);
+		
+		String message = "GROUP BY";
+		JCheckBox checkbox = new JCheckBox("Fecha");
+		JCheckBox checkbox1 = new JCheckBox("ID_SUCURSAL");
+		JCheckBox checkbox2 = new JCheckBox("SUM(CANTIDAD_PRODUCTO_COMPRADO");
+		Object[] params = {message, checkbox, checkbox1, checkbox2};
+		JOptionPane.showConfirmDialog(this, params, "Order BY", JOptionPane.YES_NO_OPTION);
+		
+		String message1 = "ORDER BY";
+		
+		
+		JCheckBox OBNombre = new JCheckBox("Nombre");
+		JCheckBox OBCorreo = new JCheckBox("Nombre");
+		JCheckBox OBFecha = new JCheckBox("Fecha");
+		JCheckBox OBID_Sucursal = new JCheckBox("ID_SUCURSAL");
+		JCheckBox OB_SUM = new JCheckBox("SUM(CANTIDAD_PRODUCTO_COMPRADO");
+		JCheckBox OBCantidad = new JCheckBox("CANTIDAD_PRODUCTO_COMPRADO");
+		if(checkbox.isSelected() | checkbox1.isSelected() | checkbox1.isSelected() )
+		{
+			
+			if(checkbox.isSelected() && checkbox1.isSelected() && checkbox2.isSelected() )
+			{
+				Object[] paramsOB = {message1,  OBFecha, OBID_Sucursal, OB_SUM};
+			}
+			else if  (checkbox.isSelected() && checkbox1.isSelected())
+			{
+				Object[] paramsOB = {message1,  OBFecha, OBID_Sucursal};
+			}
+			else if ( checkbox1.isSelected() && checkbox2.isSelected())
+			{
+				Object[] paramsOB = {message1,  OBID_Sucursal, OB_SUM};
+			}
+			JOptionPane.showConfirmDialog(this, paramsOB, "Order BY", JOptionPane.YES_NO_OPTION);
+		}
+		else
+		{
+			
+			Object[] paramsOB = {message1, OBNombre, OBCorreo, OBFecha, OBID_Sucursal, OB_SUM, OBCantidad};
+			JOptionPane.showConfirmDialog(this, paramsOB, "Order BY", JOptionPane.YES_NO_OPTION);
+		}
+		System.out.println(OBNombre.isSelected() + " " + checkbox2.isSelected());
+		
 	}
 	@Override
 	public void actionPerformed(ActionEvent pEvento) {
