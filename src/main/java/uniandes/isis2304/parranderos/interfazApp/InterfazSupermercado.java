@@ -6,7 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileReader;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -1068,45 +1070,183 @@ public class InterfazSupermercado extends JFrame implements ActionListener {
 			e.printStackTrace();
 		}
 	}
-	
+	public void consulta8() 
+	{
+		String fechaInicio = JOptionPane.showInputDialog (this, "Fecha de Inicio", "Fecha de inicio", JOptionPane.QUESTION_MESSAGE);
+		String fechaFin = JOptionPane.showInputDialog (this, "Fecha de Fin", "Fecha de fin", JOptionPane.QUESTION_MESSAGE);
+		String id_Producto = JOptionPane.showInputDialog (this, "Id producto", "Id Producto", JOptionPane.QUESTION_MESSAGE);
+		Long id = Long.MIN_VALUE;
+		String pattern2 = "yyyy-MM-dd";
+		SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat(pattern2);
+		Date date = new Date();
+		Date dateFinal = new Date();
+		try {
+			
+			date = simpleDateFormat2.parse(fechaInicio);
+			dateFinal = simpleDateFormat2.parse(fechaFin);
+			id = Long.parseLong(id_Producto);
+		}
+		catch (Exception e) {
+			System.err.println("Información errónea");
+			
+		}
+		
+		String message = "GROUP BY";
+		JCheckBox nombre = new JCheckBox("Nombre");
+		Object[] params = {message, nombre};
+		JOptionPane.showConfirmDialog(this, params, "Order BY", JOptionPane.YES_NO_OPTION);
+		
+		String message1 = "ORDER BY";
+		boolean hayGroup = false;		
+		JCheckBox OBNombre = new JCheckBox("Nombre");
+		JCheckBox OBCorreo = new JCheckBox("Correo");
+		if ( nombre.isSelected())
+		{
+			Object[] params1 = {message1, OBNombre}; 
+			JOptionPane.showConfirmDialog(this, params1, "Order BY", JOptionPane.YES_NO_OPTION);
+			hayGroup = true;
+		}
+		else
+		{
+			Object[] params1 = {message1, OBNombre,OBCorreo}; 
+			JOptionPane.showConfirmDialog(this, params1, "Order BY", JOptionPane.YES_NO_OPTION);
+		}
+		String select = "";
+		String group ="";
+		String order = "";
+		if ( hayGroup)
+		{
+			select = select +" nombre ";
+			group = group + " nombre ";
+			if(OBNombre.isSelected())
+			{
+				order = order + " nombre ";
+			}
+		}
+		else
+		{
+			select = select + "nombre, correo";
+			if ( OBNombre.isSelected() | OBCorreo.isSelected())
+			{
+				order = crearOrder(OBNombre.isSelected(), OBCorreo.isSelected());
+				int primeraComa2 = order.indexOf(",");
+				order = order.substring(primeraComa2+1);
+			}
+				
+		}
+		
+		List<Object> respConsulta = supermercado.consulta8(date, dateFinal, id, select, group, order );
+		String resultado = "";
+		if ( respConsulta !=null)
+		{
+			for (Object object : respConsulta) {
+				resultado = resultado + "---------------------------------- \n";
+				Object[] objeto = (Object[]) object;
+				for (Object object2 : objeto) {
+					
+					resultado += object2 + " ";
+					
+				}
+				resultado = resultado + "\n";
+			}
+		}
+		else {
+			resultado = "No hay información para mostrar";
+		}
+		
+		panelDatos.actualizarInterfaz(resultado);
+	}
+	private String crearOrder(boolean nombre, boolean correo)
+	{
+		String order = "";
+		if ( nombre )
+		{
+			order = order + ", nombre ";
+		}
+		else if ( correo )
+		{
+			order = order + " , nombre";
+		}
+			
+		
+		return order;
+	}
 	public void consulta7()
 	{
 		String fechaInicio = JOptionPane.showInputDialog (this, "Fecha de Inicio", "Fecha de inicio", JOptionPane.QUESTION_MESSAGE);
 		String fechaFin = JOptionPane.showInputDialog (this, "Fecha de Fin", "Fecha de fin", JOptionPane.QUESTION_MESSAGE);
 		String id_Producto = JOptionPane.showInputDialog (this, "Id producto", "Id Producto", JOptionPane.QUESTION_MESSAGE);
-		
+		Long id = Long.MIN_VALUE;
+		String pattern2 = "yyyy-MM-dd";
+		SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat(pattern2);
+		Date date = new Date();
+		Date dateFinal = new Date();
+		try {
+			
+			date = simpleDateFormat2.parse(fechaInicio);
+			dateFinal = simpleDateFormat2.parse(fechaFin);
+			id = Long.parseLong(id_Producto);
+		}
+		catch (Exception e) {
+			System.err.println("Información errónea");
+			
+		}
 		String message = "GROUP BY";
-		JCheckBox checkbox = new JCheckBox("Fecha");
-		JCheckBox checkbox1 = new JCheckBox("ID_SUCURSAL");
-		JCheckBox checkbox2 = new JCheckBox("SUM(CANTIDAD_PRODUCTO_COMPRADO");
-		Object[] params = {message, checkbox, checkbox1, checkbox2};
+		JCheckBox fecha1 = new JCheckBox("Fecha");
+		JCheckBox ID_SUCURSAL1 = new JCheckBox("ID_SUCURSAL");
+		JCheckBox SUMCANTIDAD1 = new JCheckBox("SUM(CANTIDAD_PRODUCTO_COMPRADO");
+		Object[] params = {message, fecha1, ID_SUCURSAL1, SUMCANTIDAD1};
 		JOptionPane.showConfirmDialog(this, params, "Order BY", JOptionPane.YES_NO_OPTION);
 		
 		String message1 = "ORDER BY";
-		
-		
+		boolean hayGroup = false;
+		boolean hayOrder = false;
 		JCheckBox OBNombre = new JCheckBox("Nombre");
-		JCheckBox OBCorreo = new JCheckBox("Nombre");
+		JCheckBox OBCorreo = new JCheckBox("Correo");
 		JCheckBox OBFecha = new JCheckBox("Fecha");
 		JCheckBox OBID_Sucursal = new JCheckBox("ID_SUCURSAL");
-		JCheckBox OB_SUM = new JCheckBox("SUM(CANTIDAD_PRODUCTO_COMPRADO");
+		JCheckBox OB_SUM = new JCheckBox("SUM(CANTIDAD_PRODUCTO_COMPRADO)");
 		JCheckBox OBCantidad = new JCheckBox("CANTIDAD_PRODUCTO_COMPRADO");
-		if(checkbox.isSelected() | checkbox1.isSelected() | checkbox1.isSelected() )
+		if(fecha1.isSelected() | ID_SUCURSAL1.isSelected() | ID_SUCURSAL1.isSelected() )
 		{
-			
-			if(checkbox.isSelected() && checkbox1.isSelected() && checkbox2.isSelected() )
+			hayGroup = true;
+			if(fecha1.isSelected() && ID_SUCURSAL1.isSelected() && SUMCANTIDAD1.isSelected() )
 			{
 				Object[] paramsOB = {message1,  OBFecha, OBID_Sucursal, OB_SUM};
+				JOptionPane.showConfirmDialog(this, paramsOB, "Order BY", JOptionPane.YES_NO_OPTION);
 			}
-			else if  (checkbox.isSelected() && checkbox1.isSelected())
+			else if  (fecha1.isSelected() && ID_SUCURSAL1.isSelected())
 			{
 				Object[] paramsOB = {message1,  OBFecha, OBID_Sucursal};
+				JOptionPane.showConfirmDialog(this, paramsOB, "Order BY", JOptionPane.YES_NO_OPTION);
 			}
-			else if ( checkbox1.isSelected() && checkbox2.isSelected())
+			else if ( ID_SUCURSAL1.isSelected() && SUMCANTIDAD1.isSelected())
 			{
 				Object[] paramsOB = {message1,  OBID_Sucursal, OB_SUM};
+				JOptionPane.showConfirmDialog(this, paramsOB, "Order BY", JOptionPane.YES_NO_OPTION);
+				
 			}
-			JOptionPane.showConfirmDialog(this, paramsOB, "Order BY", JOptionPane.YES_NO_OPTION);
+			else if ( fecha1.isSelected() && SUMCANTIDAD1.isSelected() )
+			{
+				Object[] paramsOB = {message1, OBFecha, OB_SUM};
+				JOptionPane.showConfirmDialog(this, paramsOB, "Order BY", JOptionPane.YES_NO_OPTION);
+			}
+			else if ( fecha1.isSelected() )
+			{
+				Object[] paramsOB = {message1, OBFecha};
+				JOptionPane.showConfirmDialog(this, paramsOB, "Order BY", JOptionPane.YES_NO_OPTION);
+			}
+			else if ( ID_SUCURSAL1.isSelected() )
+			{
+				Object[] paramsOB = {message1, OBID_Sucursal};
+				JOptionPane.showConfirmDialog(this, paramsOB, "Order BY", JOptionPane.YES_NO_OPTION);
+			}
+			else if ( SUMCANTIDAD1.isSelected() )
+			{
+				Object[] paramsOB = {message1, OB_SUM };
+				JOptionPane.showConfirmDialog(this, paramsOB, "Order BY", JOptionPane.YES_NO_OPTION);
+			}
+			
 		}
 		else
 		{
@@ -1114,8 +1254,143 @@ public class InterfazSupermercado extends JFrame implements ActionListener {
 			Object[] paramsOB = {message1, OBNombre, OBCorreo, OBFecha, OBID_Sucursal, OB_SUM, OBCantidad};
 			JOptionPane.showConfirmDialog(this, paramsOB, "Order BY", JOptionPane.YES_NO_OPTION);
 		}
-		System.out.println(OBNombre.isSelected() + " " + checkbox2.isSelected());
+		String select = "";
+		String group ="";
+		String order = "";
+		if ( hayGroup)
+		{
+			select = crearSelect7(fecha1.isSelected(), ID_SUCURSAL1.isSelected(), SUMCANTIDAD1.isSelected(),OBNombre.isSelected(), OBCorreo.isSelected() , OBFecha.isSelected(), OBID_Sucursal.isSelected(), OB_SUM.isSelected(), OBCantidad.isSelected());
+			group = select;
+			if(OBFecha.isSelected() | OBID_Sucursal.isSelected()| OB_SUM.isSelected()|OBNombre.isSelected()| OBCorreo.isSelected() |OBFecha.isSelected()| OBID_Sucursal.isSelected()| OB_SUM.isSelected()| OBCantidad.isSelected())	
+			{
+				order = crearOder7(OBFecha.isSelected(), OBID_Sucursal.isSelected(), OB_SUM.isSelected(),OBNombre.isSelected(), OBCorreo.isSelected() , OBFecha.isSelected(), OBID_Sucursal.isSelected(), OB_SUM.isSelected(), OBCantidad.isSelected());
+				int primeraComa2 = order.indexOf(",");
+				System.out.println(order+ " "+ primeraComa2);
+				order = order.substring(primeraComa2+1);
+				System.out.println(order);
+			}
+		}
+		else
+		{	select = crearSelect7(fecha1.isSelected(), ID_SUCURSAL1.isSelected(), SUMCANTIDAD1.isSelected(),OBNombre.isSelected(), OBCorreo.isSelected() , OBFecha.isSelected(), OBID_Sucursal.isSelected(), OB_SUM.isSelected(), OBCantidad.isSelected());
+			if(OBFecha.isSelected() | OBID_Sucursal.isSelected()| OB_SUM.isSelected()|OBNombre.isSelected()| OBCorreo.isSelected() |OBFecha.isSelected()| OBID_Sucursal.isSelected()| OB_SUM.isSelected()| OBCantidad.isSelected())	
+			{
+				order = crearOder7(OBFecha.isSelected(), OBID_Sucursal.isSelected(), OB_SUM.isSelected(),OBNombre.isSelected(), OBCorreo.isSelected() , OBFecha.isSelected(), OBID_Sucursal.isSelected(), OB_SUM.isSelected(), OBCantidad.isSelected());
+				int primeraComa2 = order.indexOf(",");
+				System.out.println(order+ " "+ primeraComa2);
+				order = order.substring(primeraComa2+1);
+				System.out.println(order);
+			}
+		}
+		List<Object> respConsulta = supermercado.consulta7(date, dateFinal, id, select, group, order );
+		String resultado = "";
+		if ( respConsulta !=null)
+		{
+			for (Object object : respConsulta) {
+				resultado = resultado + "---------------------------------- \n";
+				Object[] objeto = (Object[]) object;
+				for (Object object2 : objeto) {
+					
+					resultado += object2 + " ";
+					
+				}
+				resultado = resultado + "\n";
+			}
+		}
+		else {
+			resultado = "No hay información para mostrar";
+		}
 		
+		panelDatos.actualizarInterfaz(resultado);
+	}
+	
+	private String crearSelect7 (boolean fecha1, boolean idSucursal1, boolean sumCantidad1, boolean nombre, boolean correo, boolean fecha, boolean idSucursal, boolean sum, boolean cantidad)
+	{
+		String select = "";
+		if(fecha1 | idSucursal1 | sumCantidad1 )
+		{
+			if( fecha1)
+			{
+				select = select +" , fecha ";
+			}
+			if( idSucursal1)
+			{
+				select = select + ", idSucursal ";
+			}
+			if( sumCantidad1 )
+			{
+				select = select + ", sum(cantidad) ";
+			}
+		}
+		else
+		{
+			if (fecha)
+			{
+				select = select +" , fecha ";
+			}
+			if ( idSucursal)
+			{
+				select = select +" , idsucursal ";
+			}
+			if ( sum)
+			{
+				select =select +" , sum(cantidad) ";
+						
+			}
+			if( cantidad )
+			{
+				select = select + ", cantidad";
+			}
+		}
+		return select;
+	}
+	
+	private String crearOder7 (boolean fecha1, boolean idSucursal1, boolean sumCantidad1, boolean nombre, boolean correo, boolean fecha, boolean idSucursal, boolean sum, boolean cantidad)
+	{
+		String select = "";
+		if(fecha1 | idSucursal1 | sumCantidad1 )
+		{
+			if( fecha1)
+			{
+				select = select +" , fecha ";
+			}
+			if( idSucursal1)
+			{
+				select = select + ", idSucursal ";
+			}
+			if( sumCantidad1 )
+			{
+				select = select + ", sum(cantidad) ";
+			}
+		}
+		else
+		{
+			if( nombre )
+			{
+				select = select +" , nombre ";
+			}
+			if (correo)
+			{
+				select = select +" , correo ";
+			}
+			if (fecha)
+			{
+				select = select +" , fecha ";
+			}
+			if ( idSucursal)
+			{
+				select = select +" , idsucursal ";
+			}
+			if ( sum)
+			{
+				select =select +" , sum(cantidad) ";
+						
+			}
+			if( cantidad )
+			{
+				select = select + ", cantidad";
+			}
+		}
+		return select;
 	}
 	@Override
 	public void actionPerformed(ActionEvent pEvento) {

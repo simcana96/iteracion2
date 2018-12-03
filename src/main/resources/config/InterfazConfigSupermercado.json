@@ -107,6 +107,10 @@
 				{
 					"label": "Clientes que compra producto en rango",
 					"event": "consulta7"
+				},
+				{
+					"label": "Clientes que no compra producto en rango",
+					"event": "consulta8"
 				}
 			]
 		},

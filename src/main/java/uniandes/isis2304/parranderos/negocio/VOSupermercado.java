@@ -1,6 +1,7 @@
 package uniandes.isis2304.parranderos.negocio;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -399,6 +400,15 @@ public class VOSupermercado {
 		return ps.consulta6(pid_Cliente, fechaInicio, fechaFin);
 	}
 	
+	public List<Object> consulta7(Date date, Date dateFinal, Long id, String select, String group, String order) {
+		
+		return ps.consulta7(date, dateFinal, id, select, group, order );
+	}
+	
+	public List<Object> consulta8(Date date, Date dateFinal, Long id, String select, String group, String order) {
+		
+		return ps.consulta8(date, dateFinal, id, select, group, order );
+	}
 	public long limpiarBodegas()
 	{
 		long borradas = ps.limpiarBodegas();
@@ -445,6 +455,10 @@ public class VOSupermercado {
 		ps.actualizarProductoCarrito(id_Producto, cantidad, id_Carrito);
 		
 	}
+
+	
+
+	
 
 	
 }
