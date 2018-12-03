@@ -1394,9 +1394,13 @@ public class PersistenciaSupermercado {
 			Query q = pmf.getPersistenceManager().newQuery(SQL,"SELECT " +select+" FROM (SELECT id, nombre, correo FROM A_Cliente MINUS( SELECT c.id, nombre, correo FROM A_Cliente C , A_Factura F, A_Itemfactura Ifa WHERE "
 					+ "F.Idcliente = C.Id And F.Id = Ifa.Idfactura And Ifa.Idproducto =" + id + " And F.Fecha > " + "'" + (date.getDay()+ 1) + "-" + (date.getMonth()+1)+ "-" + (date.getYear() +1900)+ "'" 
 					+ " And F.Fecha < " + "'" + (dateFinal.getDay()+1) + "-" + (dateFinal.getMonth()+1)+ "-" + (dateFinal.getYear()+1900) + "')" 
-					+  ") WHERE ROWNUM<=10000  GROUP BY nombre " + " ORDER BY" + order
+					+  ")  GROUP BY nombre " + " ORDER BY" + order
 					+ "");
-			
+			System.out.println("SELECT " +select+" FROM (SELECT id, nombre, correo FROM A_Cliente MINUS( SELECT c.id, nombre, correo FROM A_Cliente C , A_Factura F, A_Itemfactura Ifa WHERE "
+					+ "F.Idcliente = C.Id And F.Id = Ifa.Idfactura And Ifa.Idproducto =" + id + " And F.Fecha > " + "'" + (date.getDay()+ 1) + "-" + (date.getMonth()+1)+ "-" + (date.getYear() +1900)+ "'" 
+					+ " And F.Fecha < " + "'" + (dateFinal.getDay()+1) + "-" + (dateFinal.getMonth()+1)+ "-" + (dateFinal.getYear()+1900) + "')" 
+					+  ")  GROUP BY nombre " + " ORDER BY" + order
+					+ "");
 			return (List<Object>) q.executeList();
 		}
 		else if( !group.equals("") && order.equals(""))
@@ -1404,8 +1408,11 @@ public class PersistenciaSupermercado {
 			Query q = pmf.getPersistenceManager().newQuery(SQL,"SELECT " +select+" FROM (SELECT id, nombre, correo FROM A_Cliente MINUS( SELECT c.id, nombre, correo FROM A_Cliente C , A_Factura F, A_Itemfactura Ifa WHERE "
 					+ "F.Idcliente = C.Id And F.Id = Ifa.Idfactura And Ifa.Idproducto =" + id + " And F.Fecha > " + "'" + (date.getDay()+ 1) + "-" + (date.getMonth()+1)+ "-" + (date.getYear() +1900)+ "')" 
 					+ " And F.Fecha < " + "'" + (dateFinal.getDay()+1) + "-" + (dateFinal.getMonth()+1)+ "-" + (dateFinal.getYear()+1900) + "')" 
-					+  " WHERE ROWNUM<=10000  GROUP BY nombre ");
-			
+					+  "  GROUP BY nombre ");
+			System.out.println("SELECT " +select+" FROM (SELECT id, nombre, correo FROM A_Cliente MINUS( SELECT c.id, nombre, correo FROM A_Cliente C , A_Factura F, A_Itemfactura Ifa WHERE "
+					+ "F.Idcliente = C.Id And F.Id = Ifa.Idfactura And Ifa.Idproducto =" + id + " And F.Fecha > " + "'" + (date.getDay()+ 1) + "-" + (date.getMonth()+1)+ "-" + (date.getYear() +1900)+ "')" 
+					+ " And F.Fecha < " + "'" + (dateFinal.getDay()+1) + "-" + (dateFinal.getMonth()+1)+ "-" + (dateFinal.getYear()+1900) + "')" 
+					+  "  GROUP BY nombre ");
 			return (List<Object>) q.executeList();
 			
 		}
@@ -1415,8 +1422,12 @@ public class PersistenciaSupermercado {
 					+ "F.Idcliente = C.Id And F.Id = Ifa.Idfactura And Ifa.Idproducto =" + id + " And F.Fecha > " + "'" + (date.getDay()+ 1) + "-" + (date.getMonth()+1)+ "-" + (date.getYear() +1900)+ "'" 
 					+ " And F.Fecha < " + "'" + (dateFinal.getDay()+1) + "-" + (dateFinal.getMonth()+1)+ "-" + (dateFinal.getYear()+1900) + "')" 
 					+  "ORDER BY" + order
-					+ ") WHERE ROWNUM<=100");
-			
+					+ ")");
+			System.out.println("SELECT " +select+" FROM (SELECT id, nombre, correo FROM A_Cliente MINUS( SELECT c.id, nombre, correo FROM A_Cliente C , A_Factura F, A_Itemfactura Ifa WHERE "
+					+ "F.Idcliente = C.Id And F.Id = Ifa.Idfactura And Ifa.Idproducto =" + id + " And F.Fecha > " + "'" + (date.getDay()+ 1) + "-" + (date.getMonth()+1)+ "-" + (date.getYear() +1900)+ "'" 
+					+ " And F.Fecha < " + "'" + (dateFinal.getDay()+1) + "-" + (dateFinal.getMonth()+1)+ "-" + (dateFinal.getYear()+1900) + "')" 
+					+  "ORDER BY" + order
+					+ ")");
 			return (List<Object>) q.executeList();
 		}
 		else
@@ -1424,7 +1435,11 @@ public class PersistenciaSupermercado {
 			Query q = pmf.getPersistenceManager().newQuery(SQL,"SELECT " +select+" FROM (SELECT id, nombre, correo FROM A_Cliente MINUS( SELECT c.id, nombre, correo FROM A_Cliente C , A_Factura F, A_Itemfactura Ifa WHERE "
 					+ "F.Idcliente = C.Id And F.Id = Ifa.Idfactura And Ifa.Idproducto =" + id + " And F.Fecha > " + "'" + (date.getDay()+ 1) + "-" + (date.getMonth()+1)+ "-" + (date.getYear() +1900)+ "'" 
 					+ " And F.Fecha < " + "'" + (dateFinal.getDay()+1) + "-" + (dateFinal.getMonth()+1)+ "-" + (dateFinal.getYear()+1900) + "')" 
-					+ ") WHERE ROWNUM<=10000");
+					+ ") ");
+			System.out.println("SELECT " +select+" FROM (SELECT id, nombre, correo FROM A_Cliente MINUS( SELECT c.id, nombre, correo FROM A_Cliente C , A_Factura F, A_Itemfactura Ifa WHERE "
+					+ "F.Idcliente = C.Id And F.Id = Ifa.Idfactura And Ifa.Idproducto =" + id + " And F.Fecha > " + "'" + (date.getDay()+ 1) + "-" + (date.getMonth()+1)+ "-" + (date.getYear() +1900)+ "'" 
+					+ " And F.Fecha < " + "'" + (dateFinal.getDay()+1) + "-" + (dateFinal.getMonth()+1)+ "-" + (dateFinal.getYear()+1900) + "')" 
+					+ ") ");
 			return (List<Object>) q.executeList();
 		}
 		
